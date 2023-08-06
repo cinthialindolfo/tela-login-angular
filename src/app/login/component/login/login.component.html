@@ -1,0 +1,65 @@
+<div class="content">
+  <mat-card>
+
+    <form [formGroup]="form" #formDirective="ngForm" (ngSubmit)="submit()">
+      <mat-card-title>Tela de Login</mat-card-title>
+
+      
+
+      <mat-form-field appearance="legacy" [@openCloseFields]=" isSignUp ? 'open' : 'closed'"  >
+
+        <input matInput placeholder="&nbsp;nome" formControlName="name"  >
+        <mat-icon matPrefix>person</mat-icon>
+
+        <mat-error>
+          Qual seu nome?
+        </mat-error>
+
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+
+        <input matInput placeholder="&nbsp;email" type="email" required formControlName="email">
+
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error  *ngIf="!email?.getError('email')">
+          Informe o seu email?
+        </mat-error>
+        <mat-error *ngIf="email?.value?.trim().length > 0 && email?.getError('email')">
+          Acho que vc digitou algo errado!
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy">
+        <input matInput placeholder="&nbsp;senha" type="password" required formControlName="password">
+        <mat-icon matPrefix>lock</mat-icon>
+        <mat-error>
+          Cadastre sua senha
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="legacy" [@openCloseFields]=" isSignUp ? 'open' : 'closed'">
+
+        <input matInput [appCompareTo]="password"   formControlName="rPassword" placeholder="&nbsp;confirmar senha"
+          type="password" required>
+        <mat-icon matPrefix>lock</mat-icon>
+        <mat-error *ngIf=" !rPassword?.getError('compareTo')">
+          Pode repetir, please?
+        </mat-error>
+        <mat-error *ngIf=" rPassword?.value?.length > 0 && (rPassword?.getError('compareTo'))">
+          Oops, algo deu errado! 🙃
+        </mat-error>
+
+      </mat-form-field>
+
+      <button type="submit" mat-flat-button color="primary">
+        {{ isSignUp ? 'Registrar' : 'Logar' }}
+      </button>
+
+    </form>
+    <a mat-button class="signInUp" color="primary" (click)="setSignInUp(formDirective)">{{ isSignUp ? "fazer login": "cadastra-se" }}
+    </a>
+  </mat-card>
+</div>
+<input type="file" style="display: none;" (change)="fileChangeEvent($event)" accept="image/x-png,image/gif,image/jpeg"
+  #file />
